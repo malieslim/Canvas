@@ -41,4 +41,38 @@ public class Canvas {
         return totalPerimeter;
     }
 
+    @Override
+    public boolean equals(Object object){
+       if(object==this){
+           return true;
+       }
+        if (object == null || getClass() != object.getClass()){
+            return false;
+        }
+        Canvas other=(Canvas) object;
+        if (this.height != other.height || this.width != other.width) {
+            return false;
+        }
+        for (int i = 0; i < this.height; i++) {
+            for (int j = 0; j < this.width; j++) {
+                Shape shape1 = this.shapes[i][j];
+                Shape shape2 = other.shapes[i][j];
+
+                if (shape1 == null && shape2 == null) {
+                    continue;
+                }
+
+                if (shape1 == null || shape2 == null) {
+                    return false;
+                }
+
+                if (!shape1.equals(shape2)) {
+                    return false;
+                }
+            }
+        }
+        return true;
+
+    }
+
 }
