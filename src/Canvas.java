@@ -8,23 +8,24 @@ public class Canvas {
         this.width = width;
         this.shapes = new Shape[height][width];
     }
-    public void addShape(Shape shape, int row, int col){
-        if(row >= 0 && row < this.height && col >= 0 && col < this.width){
+
+    public void addShape(Shape shape, int row, int col) {
+        if (row >= 0 && row < this.height && col >= 0 && col < this.width) {
             shapes[row][col] = shape;
         }
     }
 
-    public void removeShape(int row, int col){
-        if(row >= 0 && row < this.height && col >= 0 && col < this.width){
+    public void removeShape(int row, int col) {
+        if (row >= 0 && row < this.height && col >= 0 && col < this.width) {
             shapes[row][col] = null;
         }
     }
 
-    public double getTotalArea(){
+    public double getTotalArea() {
         double totalArea = 0;
         for (int i = 0; i < this.height; i++) {
             for (int j = 0; j < this.width; j++) {
-                if(this.shapes[i][j] != null){
+                if (this.shapes[i][j] != null) {
                     totalArea += this.shapes[i][j].area();
                 }
             }
@@ -32,11 +33,11 @@ public class Canvas {
         return totalArea;
     }
 
-    public double getTotalPerimeter(){
+    public double getTotalPerimeter() {
         double totalPerimeter = 0;
         for (int i = 0; i < this.height; i++) {
             for (int j = 0; j < this.width; j++) {
-                if(this.shapes[i][j] != null){
+                if (this.shapes[i][j] != null) {
                     totalPerimeter += this.shapes[i][j].perimeter();
                 }
             }
@@ -45,11 +46,11 @@ public class Canvas {
     }
 
     @Override
-    public boolean equals(Object object){
-        if(object == this){
+    public boolean equals(Object object) {
+        if (object == this) {
             return true;
         }
-        if (object == null || getClass() != object.getClass()){
+        if (object == null || getClass() != object.getClass()) {
             return false;
         }
         Canvas other = (Canvas) object;
@@ -80,28 +81,16 @@ public class Canvas {
 
     @Override
     public String toString() {
-        final int CHARS_PER_UNIT = 3;
+        String result = "";
         final String SHAPE_SEPARATOR = "   ";
 
-        int maxCanvasWidth = 0;
-        for (int i = 0; i < this.height; i++) {
-            for (int j = 0; j < this.width; j++) {
-                if (this.shapes[i][j] != null) {
-                    maxCanvasWidth = Math.max(maxCanvasWidth, this.shapes[i][j].getWidth());
-                }
-            }
-        }
+        int maxCanvasWidth = getMaxCanvasWidth();
 
-        String result = "";
-        String emptyCellSpace = " ".repeat(maxCanvasWidth * CHARS_PER_UNIT);
+        String emptyCellSpace = buildEmptySpace(maxCanvasWidth);
 
-        for (int i = 0; i < this.height; i++) {
-            int maxRowHeight = 0;
-            for (int j = 0; j < this.width; j++) {
-                if (this.shapes[i][j] != null) {
-                    maxRowHeight = Math.max(maxRowHeight, this.shapes[i][j].getHeight());
-                }
-            }
+        for (int i = 0; i < this.shapes.length; i++) {
+
+            int maxRowHeight = getMaxRowHeight(i);
 
             if (maxRowHeight == 0) {
                 result += "\n";
@@ -119,16 +108,10 @@ public class Canvas {
                 for (int j = 0; j < this.width; j++) {
                     if (this.shapes[i][j] == null) {
                         result += emptyCellSpace;
+                    } else if (lineIdx < rowShapesLines[j].length) {
+                        result += rowShapesLines[j][lineIdx];
                     } else {
-                        if (lineIdx < this.shapes[i][j].getHeight()) {
-                            if (lineIdx < rowShapesLines[j].length) {
-                                result += rowShapesLines[j][lineIdx];
-                            } else {
-                                result += " ".repeat(this.shapes[i][j].getWidth() * CHARS_PER_UNIT);
-                            }
-                        } else {
-                            result += " ".repeat(this.shapes[i][j].getWidth() * CHARS_PER_UNIT);
-                        }
+                        result += buildEmptySpace(this.shapes[i][j].getWidth());
                     }
 
                     if (j < this.width - 1) {
@@ -139,6 +122,35 @@ public class Canvas {
             }
             result += "\n";
         }
+
         return result;
+    }
+
+
+    private String buildEmptySpace(int width) {
+        final int CHARS_PER_UNIT = 3;
+        return " ".repeat(width * CHARS_PER_UNIT);
+    }
+
+    private int getMaxCanvasWidth() {
+        int maxCanvasWidth = 0;
+        for (int i = 0; i < this.shapes.length; i++) {
+            for (int j = 0; j < this.width; j++) {
+                if (this.shapes[i][j] != null) {
+                    maxCanvasWidth = Math.max(maxCanvasWidth, this.shapes[i][j].getWidth());
+                }
+            }
+        }
+        return maxCanvasWidth;
+    }
+
+    private int getMaxRowHeight(int rowIndex) {
+        int maxRowHeight = 0;
+        for (int j = 0; j < this.width; j++) {
+            if (this.shapes[rowIndex][j] != null) {
+                maxRowHeight = Math.max(maxRowHeight, this.shapes[rowIndex][j].getHeight());
+            }
+        }
+        return maxRowHeight;
     }
 }
