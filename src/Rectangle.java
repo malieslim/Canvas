@@ -1,4 +1,4 @@
-public class Rectangle extends Shape{
+public class Rectangle extends Shape {
     private int width;
     private int height;
 
@@ -7,14 +7,13 @@ public class Rectangle extends Shape{
         this.height = height;
     }
 
-
     @Override
-    public double getArea() {
+    public double area() {
         return this.width * this.height;
     }
 
     @Override
-    public double getPerimeter() {
+    public double perimeter() {
         return 2 * (this.width + this.height);
     }
 
@@ -31,7 +30,6 @@ public class Rectangle extends Shape{
     @Override
     public String toString() {
         String row = " * ".repeat(this.width);
-
         String result = "";
 
         for (int i = 0; i < this.height; i++) {
@@ -47,15 +45,13 @@ public class Rectangle extends Shape{
 
     @Override
     public boolean equals(Object object) {
-        if(object==this){
+        if(object == this){
             return true;
         }
         if (object == null || getClass() != object.getClass()){
             return false;
         }
-        Rectangle rectangle=(Rectangle) object;
-        return this.width==rectangle.getWidth() && this.height==rectangle.getHeight();
-
+        Rectangle rectangle = (Rectangle) object;
+        return this.width == rectangle.getWidth() && this.height == rectangle.getHeight();
     }
-
 }

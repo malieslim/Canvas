@@ -21,7 +21,6 @@ public class Main {
         System.out.println("Rectangle Area: " + rectangle.area());
         System.out.println("Rectangle Perimeter: " + rectangle.perimeter());
         System.out.println(rectangle);
-
         System.out.println("Square Area: " + square.area());
         System.out.println("Square Perimeter: " + square.perimeter());
         System.out.println(square);
